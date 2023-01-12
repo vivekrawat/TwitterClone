@@ -178,4 +178,62 @@ friendshipSchema.statics.postUnreposted = async function (user_id = null, post_i
     return res1
 }
 
+/**
+ * when user1 got followed by user2
+ * @param {*} user1_id 
+ * @param {*} user2_id 
+ * increasing count of follower in user schema
+ * pushing notification for user 1
+ * pushing follower in friendship schema
+ */
+friendshipSchema.statics.gotFollowed = async function (user1_id = null, user2_id = null) {
+    let follower = await this.isFollowed(user1_id, user2_id)
+    if (follower) //already follower, skip(bug in front-end app)
+        return ({ ok: 1, nModified: 0 })
+    await mongoose.model('User').findByIdAndUpdate(user1_id, {
+        $inc: { followers_count: 1 }
+    }) 
+    await mongoose.model('Notification').push(user1_id, {
+        type: 'followed',
+        title: `You were followed`,
+        body: {
+            user: user2_id
+        }
+    })
+    return this.updateOne({ user_id: user1_id }, {
+        $push: {
+            follower_ids: {
+                $each: [user2_id],
+                $position: 0
+            }
+        }
+    }, { upsert: true })
+}
+
+/**
+ * contrary to gotFollowed
+ * when user1 got unfollowed by user2
+ * @param {*} user1_id 
+ * @param {*} user2_id 
+ */
+friendshipSchema.statics.gotUnfollowed = async function (user1_id = null, user2_id = null) {
+    let follower = await this.isFollowed(user1_id, user2_id)
+    if (!follower) //not a follower, skip. (bug in front-end app)
+        return ({ ok: 1, nModified: 0 })
+    await mongoose.model('User').findByIdAndUpdate(user1_id, {
+        $inc: { followers_count: -1 }
+    }) // retrieved from serializer now
+    await mongoose.model('Notification').push(user1_id, {
+        type: 'unfollowed',
+        title: `You were unfollowed`,
+        body: {
+            user: user2_id
+        }
+    })
+    return this.updateOne({ user_id: user1_id }, {
+        $pull: { follower_ids: user2_id }
+    })
+}
+
+
 module.exports = mongoose.model('Friendship', friendshipSchema)
