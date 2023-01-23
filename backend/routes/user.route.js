@@ -21,3 +21,5 @@ router.get('/followers/:username', getFollowers)
 router.get('/friends/:username', getFriends)
 /* POST update authenticated user */
 router.post('/updateuser', ensureLoggedIn, updateUser)
+
+module.exports = router

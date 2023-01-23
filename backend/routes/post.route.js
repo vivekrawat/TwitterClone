@@ -36,3 +36,5 @@ router.post('/repost', ensureLoggedIn, repostPost)
 
 /* POST unrepost a post. */
 router.post('/unrepost', ensureLoggedIn, unrepostPost)
+
+module.exports = router

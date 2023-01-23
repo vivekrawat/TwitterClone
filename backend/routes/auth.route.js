@@ -5,6 +5,7 @@ const { login, logout, signup, getLogin} = require('../controllers/auth.controll
 const router  = express.Router()
 
 router.post('/login', passport.authenticate('local'), login)
-router.get('/login', ensureLoggedIn,getLogin)
+router.get('/login', ensureLoggedIn, getLogin)
 router.post('/logout', logout)
 router.post('/signup', signup)
+module.exports = router

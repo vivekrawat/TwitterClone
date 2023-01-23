@@ -12,3 +12,5 @@ router.get('/trends', trends)
 
 /* GET user Suggestions */
 router.get('/users', ensureLoggedIn, userSuggests)
+
+module.exports = router

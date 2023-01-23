@@ -28,7 +28,7 @@ const userSchema = mongoose.Schema({
             "urls": []
         }
     },
-    "protected": { type: Boolean, defualt: false },
+    "protected": { type: Boolean, default: false },
     "followers_count": { type: Number, default: 0 },
     "friends_count": { type: Number, default: 0 },
     "listed_count": { type: Number, default: 0 },

@@ -13,10 +13,8 @@ const postSchema = mongoose.Schema({
     },
     "source": String,
     "truncated": { type: Boolean, default: false },
-    "in_reply_to_status_id": { type: mongoose.Schema.Types.Long, default: null },
-    "in_reply_to_status_id_str": { type: String, default: null },
-    "in_reply_to_user_id": { type: mongoose.Schema.Types.Long, default: null },
-    "in_reply_to_user_id_str": { type: String, default: null },
+    "in_reply_to_status_id": { type: mongoose.Schema.Types.ObjectId, default: null, ref: 'Post' },
+    "in_reply_to_user_id": { type: mongoose.Schema.Types.ObjectId, default: null, ref: 'User' },
     "in_reply_to_screen_name": { type: String, default: null },
     "user": {
         type: mongoose.Schema.Types.ObjectId,
@@ -42,8 +40,7 @@ const postSchema = mongoose.Schema({
     "contributors": {}, //N/I
 
     "is_quote_status": { type: Boolean, default: false },
-    "quoted_status_id": { type: mongoose.Schema.Types.Long },
-    "quoted_status_id_str": { type: String },
+    "quoted_status_id": { type: mongoose.Schema.Types.ObjectId, default: null, ref: 'Post'},
     "quoted_status": {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Post'

@@ -188,10 +188,8 @@ exports.replyToPost = async (req, res, next) => {
 
         let form = {
             ...post,
-            "in_reply_to_status_id": targetPost.id,
-            "in_reply_to_status_id_str": targetPost.id_str, //would be string anyway
-            "in_reply_to_user_id": targetPost.user.id,
-            "in_reply_to_user_id_str": targetPost.user.id_str,
+            "in_reply_to_status_id": targetPost._id,
+            "in_reply_to_user_id": targetPost.user._id,
             "in_reply_to_screen_name": targetPost.user.screen_name,
             "quoted_status": targetPost._id, //just for UI to look good
             "is_quote_status": false //maybe use this to distinguish
