@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const Notification = require('./notification.model')
+// const Notification = require('./notification.model')
 const engageSchema = mongoose.Schema({
     post_id: {
         type: mongoose.Schema.Types.ObjectId,
@@ -35,14 +35,14 @@ engageSchema.statics.gotLiked = async function (post_id, user_id) {
             favorite_count: 1
         }
     })
-    await Notification.push(post.user, { //user is not populated
-        type: 'liked',
-        title: 'You got a  like',
-        body: {
-            post: post_id, // post which was liked
-            user: user_id //user who liked
-        }
-    })
+    // await Notification.push(post.user, { //user is not populated
+    //     type: 'liked',
+    //     title: 'You got a  like',
+    //     body: {
+    //         post: post_id, // post which was liked
+    //         user: user_id //user who liked
+    //     }
+    // })
     return this.updateOne({ post_id }, {
         $push: {
             liked_by: {
@@ -83,14 +83,14 @@ engageSchema.statics.gotReposted = async function (post_id, user_id) {
             retweet_count: 1
         }
     })
-    await Notification.push(post.user, { //user is not populated
-        type: 'reposted',
-        title: 'Your post was reposted',
-        body: {
-            post: post_id, // post which was reposted
-            user: user_id //user who reposted
-        }
-    })
+    // await Notification.push(post.user, { //user is not populated
+    //     type: 'reposted',
+    //     title: 'Your post was reposted',
+    //     body: {
+    //         post: post_id, // post which was reposted
+    //         user: user_id //user who reposted
+    //     }
+    // })
     return this.updateOne({ post_id }, {
         $push: {
             reposted_by: {
@@ -118,13 +118,13 @@ engageSchema.statics.gotReplied = async function (post_id, reply_post_id) {
     if (await this.exists({ post_id, reply_posts: reply_post_id }))
         return
     const post = await mongoose.model('Post').findById(post_id)
-    await Notification.push(post.user, { //user is not populated
-        type: 'replied',
-        title: 'You got a reply',
-        body: {
-            post: reply_post_id, // reply post
-        }
-    })
+    // await Notification.push(post.user, { //user is not populated
+    //     type: 'replied',
+    //     title: 'You got a reply',
+    //     body: {
+    //         post: reply_post_id, // reply post
+    //     }
+    // })
     return this.updateOne({ post_id }, {
         $push: {
             reply_posts: {

@@ -193,13 +193,13 @@ friendshipSchema.statics.gotFollowed = async function (user1_id = null, user2_id
     await mongoose.model('User').findByIdAndUpdate(user1_id, {
         $inc: { followers_count: 1 }
     }) 
-    await mongoose.model('Notification').push(user1_id, {
-        type: 'followed',
-        title: `You were followed`,
-        body: {
-            user: user2_id
-        }
-    })
+    // await mongoose.model('Notification').push(user1_id, {
+    //     type: 'followed',
+    //     title: `You were followed`,
+    //     body: {
+    //         user: user2_id
+    //     }
+    // })
     return this.updateOne({ user_id: user1_id }, {
         $push: {
             follower_ids: {
@@ -223,13 +223,13 @@ friendshipSchema.statics.gotUnfollowed = async function (user1_id = null, user2_
     await mongoose.model('User').findByIdAndUpdate(user1_id, {
         $inc: { followers_count: -1 }
     }) // retrieved from serializer now
-    await mongoose.model('Notification').push(user1_id, {
-        type: 'unfollowed',
-        title: `You were unfollowed`,
-        body: {
-            user: user2_id
-        }
-    })
+    // await mongoose.model('Notification').push(user1_id, {
+    //     type: 'unfollowed',
+    //     title: `You were unfollowed`,
+    //     body: {
+    //         user: user2_id
+    //     }
+    // })
     return this.updateOne({ user_id: user1_id }, {
         $pull: { follower_ids: user2_id }
     })

@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const User = require('./user.model')
 const Hashtag = require('./hashtag.model')
 const home_timeline = require('./home_timeline.model')
-const Notification = require('./notification.model')
+// const Notification = require('./notification.model')
 
 const postSchema = mongoose.Schema({
     "created_at": { type: Date, default: Date.now },   //"Mon Jan 9 12:11:23 +0000 2023",
@@ -222,14 +222,14 @@ postSchema.post('save', async (doc, next) => {
         if (user) {
             await home_timeline.bulkAddPosts([user._id], { id_post_added: doc._id });
 
-            await Notification.push(user._id, {
-                type: 'mentioned',
-                title: `You were mentioned by @${doc.user.screen_name}`,
-                body: {
-                    user: doc.user._id,
-                    post: doc._id
-                }
-            })
+            // await Notification.push(user._id, {
+            //     type: 'mentioned',
+            //     title: `You were mentioned by @${doc.user.screen_name}`,
+            //     body: {
+            //         user: doc.user._id,
+            //         post: doc._id
+            //     }
+            // })
         }
     })
     // put hashtag to trends (hashtag collection actually)
