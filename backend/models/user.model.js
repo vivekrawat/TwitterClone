@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const Auth = require('./auth.model')
 const Friendship = require('./friendship.model')
+const home_timeline = require('./home_timeline.model')
 
 const userSchema = mongoose.Schema({
     "name": String,
@@ -10,9 +11,9 @@ const userSchema = mongoose.Schema({
         unique: true,
         index: true
     },
-    "location": { type: String, defualt: null },
+    "location": { type: String, default: null },
     "description": { type: String, default: null },
-    "url": { type: String, defualt: null },
+    "url": { type: String, default: null },
     "entities": {
         "url": {
             "urls": [

@@ -6,12 +6,11 @@ const postRouter = require('./routes/post.route')
 const searchRouter = require('./routes/search.route')
 const timelineRouter = require('./routes/timeline.route')
 const userRouter = require('./routes/user.route')
-const passport = require('./passport')
+
 dotenv.config()
 const app = express();
 connectDB()
 
-app.use(passport.initialize())
 app.use(express.json())
 // parse application/x-www-form-urlencoded, basically can only parse incoming Request Object if strings or arrays
 app.use(express.urlencoded({ extended: false }))

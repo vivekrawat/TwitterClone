@@ -1,12 +1,31 @@
 const User = require('../models/user.model')
 const { filterInput } = require('../utils/helpers')
+const bcrypt = require('bcryptjs');
+const Auth = require('../models/auth.model')
+const jwt = require('jsonwebtoken')
 
 exports.login = async(req,res) => {
     try {
-        res.json({
-            user: await User.findById(req.user._id),
-            message: 'logged in',
-        })
+        const user = await User.findOne({screen_name: req.body.username})
+        // console.log(user)
+        // console.log(user._id)
+        const auth = await user.validPassword(req.body.password)
+        console.log(user._id)
+        const token = jwt.sign({ id: user._id.toString() }, process.env.JWT_TOKEN, { expiresIn: '10h' })
+        // console.log(token)
+        // console.log(auth)
+        if(auth) {
+            res.json({
+                user: user,
+                token: token,
+                message: 'logged in',
+            })
+        }
+        else {
+            res.status(500).json({
+                msg: 'Something went wrong!'
+            })
+        }
     } catch (err) {
         console.log('error in /login', err)
         res.status(500).json({
