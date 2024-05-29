@@ -23,13 +23,13 @@ exports.login = async(req,res) => {
         }
         else {
             res.status(500).json({
-                msg: 'Something went wrong!'
+                message: 'Something went wrong!'
             })
         }
     } catch (err) {
         console.log('error in /login', err)
         res.status(500).json({
-            msg: 'Something went wrong!, cannot process your request at this moment!',
+            message: 'Something went wrong!, cannot process your request at this moment!',
         })
     }
 }
@@ -43,7 +43,7 @@ exports.getLogin = async (req, res) => {
     } catch (err) {
         console.log('error in get.login (checks if logged in)', err)
         res.status(500).json({
-            msg: 'Something went wrong cannot process your request right now',
+            message: 'Something went wrong cannot process your request right now',
         })
     }
 }
@@ -70,26 +70,29 @@ exports.signup = async (req, res) => {
             },
             { password }
         )
-        if (user)
-            req.login(
-                {
-                    _id: user._id,
-                },
-                err => {
-                    if (err) {
-                        console.log('error logging in new user', err)
-                        res.status(409).json({
-                            message: 'user created, log in now',
-                        })
-                        return
-                    }
-                    res.json({
-                        message: 'user succesfully created, logging in',
-                        user,
-                    })
-                }
-            )
-        console.log('user created', user)
+        if (user) {
+            res.status(201).json({
+                message: 'user created, log in now',
+            })
+        }
+            // req.login(
+            //     {
+            //         _id: user._id,
+            //     },
+            //     err => {
+            //         if (err) {
+            //             console.log('error logging in new user', err)
+            //             res.status(409).json({
+            //                 message: 'user created, log in now',
+            //             })
+            //             return
+            //         }
+            //         res.json({
+            //             message: 'user succesfully created, logging in',
+            //             user,
+            //         })
+            //     }
+            // )
     } catch (err) {
         console.log('error in /signup', err)
         res.status(400).json({

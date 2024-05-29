@@ -113,7 +113,7 @@ exports.getFollowers = async (req, res, next) => {
         const s = 20 //size of page/batch
 
         const user = await User.findOne({ screen_name: username }, '_id')
-        if (!user) return res.status(400).json({ msg: 'Bad request' })
+        if (!user) return res.status(400).json({ message: 'Bad request' })
 
         const doc = await Friendship.findOne(
             { user_id: user._id },
@@ -139,7 +139,7 @@ exports.getFriends = async (req, res, next) => {
         const s = 15 //size of page/batch
 
         const user = await User.findOne({ screen_name: username }, '_id')
-        if (!user) return res.status(400).json({ msg: 'Bad request' })
+        if (!user) return res.status(400).json({ message: 'Bad request' })
 
         const doc = await Friendship.findOne(
             { user_id: user._id },

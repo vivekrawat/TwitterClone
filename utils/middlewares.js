@@ -9,7 +9,7 @@ async function ensureLoggedIn(req, res, next) {
         await core_ensureLoggedIn(req, {}, next)
     } catch (err) {
         console.log("access denied: ", err.message)
-        res.status(401).json({ msg: 'login required' })
+        res.status(401).json({ message: 'login required' })
         return
     }
 }

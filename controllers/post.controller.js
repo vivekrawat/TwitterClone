@@ -19,7 +19,7 @@ exports.createPost = async (req, res, next) => {
         let post = await Post.addOne({ user_id: user._id }, body)
         post = await serializePost(post, req.user)
         res.status(200).json({
-            'msg': 'post was succesfully added',
+            'message': 'post was succesfully added',
             post
         });
     } catch (err) {
@@ -31,7 +31,7 @@ exports.getPost = async (req, res, next) => {
         let postId = req.params.postId;
         let post = await Post.findOne({ _id: postId })
         if (!post) {
-            res.status(400).json({ msg: "Bad request" })
+            res.status(400).json({ message: "Bad request" })
             return
         }
         post = await serializePost(post, req.user)
@@ -184,7 +184,7 @@ exports.replyToPost = async (req, res, next) => {
             .findOne({ id_str: postId })
             .populate('user')
         if (!targetPost)
-            return res.status(400).json({ msg: 'Bad request' })
+            return res.status(400).json({ message: 'Bad request' })
 
         let form = {
             ...post,
@@ -198,7 +198,7 @@ exports.replyToPost = async (req, res, next) => {
         if (post) { //no error proceed
             await PostEngagement.gotReplied(targetPost._id, post._id)
             post = await serializePost(post, req.user)
-            res.json({ msg: "Ok", post })
+            res.json({ message: "Ok", post })
         }
         else
             throw new Error('Post.addOne responce not ok')
